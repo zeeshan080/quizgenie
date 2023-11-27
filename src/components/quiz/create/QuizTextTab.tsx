@@ -14,6 +14,7 @@ import {
   FormItem,
   FormLabel,
   FormControl,
+  FormMessage,
 } from "@/components/ui/form";
 import { textFormSchema } from "@/types/common";
 
@@ -28,7 +29,6 @@ export default function QuizTextTab({ value }: Props) {
 
   function onSubmit(data: z.infer<typeof textFormSchema>) {
     console.log(data);
-   
   }
 
   return (
@@ -113,6 +113,7 @@ export default function QuizTextTab({ value }: Props) {
                         placeholder={"Select a No of Questions"}
                         field={field}
                       />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -125,8 +126,13 @@ export default function QuizTextTab({ value }: Props) {
                     <FormItem>
                       <FormLabel>Enter Text here</FormLabel>
                       <FormControl>
-                        <Textarea className="min-h-[130px]" {...field} />
+                        <Textarea
+                          className="min-h-[130px]"
+                          {...field}
+                          placeholder="Type or copy and paste your notes to generate questions from text. Maximum 1,000 characters."
+                        />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
