@@ -15,7 +15,7 @@ export default function QuizCreateCard({}: Props) {
       
   return (
     <div className="w-[50%]">
-      <Tabs defaultValue="text">
+      <Tabs defaultValue="topic">
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="text">Text</TabsTrigger>
           <TabsTrigger value="topic">Topic</TabsTrigger>

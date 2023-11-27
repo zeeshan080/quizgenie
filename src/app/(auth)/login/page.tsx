@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -24,6 +25,18 @@ export default function loginPage({}: Props) {
           <Button className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">
             Login with Google
           </Button>
+
+          <div>
+            <p className="text-center mt-4">
+              Don't have an account?{" "}
+              <Link
+                href="/sign-up"
+                className="text-blue-500 hover:text-blue-600"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -2,7 +2,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SingleQuizCard from "./SingleQuizCard";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
+import { FileDown, Loader } from "lucide-react";
 
 type Props = {};
 
@@ -123,7 +123,7 @@ export default function ViewQuiz({}: Props) {
         </div> */}
       <div>
       <div className="flex justify-end mb-3 mr-4">
-            <Button>Export to PDF</Button>
+            <Button><FileDown size={18} className="mr-2"/> Export to PDF</Button>
         </div>
       <ScrollArea className="h-[425px] px-4">
         {computerScienceQuestions.map((item,index) => (
