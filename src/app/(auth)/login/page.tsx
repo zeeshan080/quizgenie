@@ -14,7 +14,7 @@ export default function loginPage({}: Props) {
           <div className="mb-4">
             <Input
               type="email"
-              placeholder="Email"
+              placeholder="Enter Email"
               className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
             />
           </div>
@@ -28,7 +28,7 @@ export default function loginPage({}: Props) {
 
           <div>
             <p className="text-center mt-4">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link
                 href="/sign-up"
                 className="text-blue-500 hover:text-blue-600"
