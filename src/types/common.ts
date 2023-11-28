@@ -10,4 +10,14 @@ export const textFormSchema = object({
     textArea: string().min(100,'Min 100 characters allowed').max(1000,'Max 1000 characters allowed'),
 });
 
+
+export type mcqsQuizType = {
+    id: string;
+    question: string;
+    options: string[];
+    answer: string;
+    explanation: string;
+};
+
+
 export type TextFormSchemaType = z.infer<typeof textFormSchema>;

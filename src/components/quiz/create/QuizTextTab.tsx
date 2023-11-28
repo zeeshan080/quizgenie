@@ -3,7 +3,6 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SelectOption from "./SelectOption";
@@ -15,20 +14,46 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
-import { textFormSchema } from "@/types/common";
+import { mcqsQuizType, textFormSchema,TextFormSchemaType } from "@/types/common";
+import { useState } from "react";
 
 type Props = {
   value: string;
+  quizData: (quiz:mcqsQuizType[]) => void;
+  loading: (loading: boolean) => void;
 };
 
-export default function QuizTextTab({ value }: Props) {
-  const form = useForm<z.infer<typeof textFormSchema>>({
+type quizType = TextFormSchemaType & {quizOption: string};
+    
+
+export default function QuizTextTab({ value,quizData,loading }: Props) {
+
+  const form = useForm<TextFormSchemaType>({
     resolver: zodResolver(textFormSchema),
   });
-
-  function onSubmit(data: z.infer<typeof textFormSchema>) {
-    console.log(data);
+  const [charCount, setCharCount] = useState(0);
+  const handleCharCount = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCharCount(event.currentTarget.value.length);
+  };
+  async function onSubmit(data: TextFormSchemaType) {
+    const fullData : quizType = {...data, quizOption: "text"};
+    console.log(fullData, "-------");
+    loading(true);
+    const reponse = await fetch("/api/text-quiz", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text_quiz: fullData }),
+    });
+    const res = await reponse.json();
+    console.log(res,"--------api reponse--------");
+    const result:mcqsQuizType[] = res.questions;
+    quizData(result);
+    loading(false);
+    console.log(result);
   }
 
   return (
@@ -49,11 +74,12 @@ export default function QuizTextTab({ value }: Props) {
                           { id: "mcqs", title: "MCQS" },
                           { id: "truefalse", title: "True - False" },
                           { id: "shortqa", title: "Short Q and A" },
-                          { id: "fillblank", title: "Fill in the Blanks" },
+                          { id: "fillblanks", title: "Fill in the Blanks" },
                         ]}
                         label={"Question Type"}
                         placeholder={"Select a Question Type"}
                       />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -72,6 +98,7 @@ export default function QuizTextTab({ value }: Props) {
                         placeholder={"Select a Language"}
                         field={field}
                       />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -93,6 +120,7 @@ export default function QuizTextTab({ value }: Props) {
                         placeholder={"Select a Education Level"}
                         field={field}
                       />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -127,11 +155,18 @@ export default function QuizTextTab({ value }: Props) {
                       <FormLabel>Enter Text here</FormLabel>
                       <FormControl>
                         <Textarea
+                          maxLength={1000}
+                          onInput={handleCharCount}
                           className="min-h-[130px]"
                           {...field}
                           placeholder="Type or copy and paste your notes to generate questions from text. Maximum 1,000 characters."
                         />
                       </FormControl>
+                      <FormDescription className="text-right">
+                        <span className="text-[12px] pr-1">
+                          {charCount}/1000 characters
+                        </span>
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
