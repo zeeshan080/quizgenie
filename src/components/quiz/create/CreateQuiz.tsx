@@ -2,14 +2,14 @@
 import React, { useState } from "react";
 import QuizCreateCard from "@/components/quiz/create/QuizCreateCard";
 import ViewQuiz from "@/components/quiz/create/ViewQuiz";
-import { mcqsQuizType } from "@/types/common";
+import { QuizType } from "@/types/common";
 
 type Props = {};
 
 export default function CreateQuiz({}: Props) {
-  const [quiz, setQuiz] = useState<mcqsQuizType[] | []>([]);
+  const [quiz, setQuiz] = useState<QuizType[] | []>([]);
   const [loading, setLoading] = useState(false);
-  const getQuiz = (quiz: mcqsQuizType[]) => {
+  const getQuiz = (quiz: QuizType[]) => {
     setQuiz(quiz);
   };
   return (

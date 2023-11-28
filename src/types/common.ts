@@ -7,14 +7,14 @@ export const textFormSchema = object({
     language: string({ required_error: 'Please select a language' }),
     educationLevel: string({ required_error: 'Please select an education level' }),
     noOfQuestions: string({ required_error: 'Please select number of questions' }),
-    textArea: string().min(100,'Min 100 characters allowed').max(1000,'Max 1000 characters allowed'),
+    textArea: string().min(5,'Min 5 characters allowed').max(1000,'Max 1000 characters allowed'),
 });
 
 
-export type mcqsQuizType = {
+export type QuizType = {
     id: string;
     question: string;
-    options: string[];
+    options?: string[];
     answer: string;
     explanation: string;
 };

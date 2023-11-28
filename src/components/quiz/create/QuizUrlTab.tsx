@@ -26,19 +26,18 @@ import { Input } from "@/components/ui/input";
 
 type Props = {
   value: string;
-  quizData: (quiz:QuizType[]) => void;
+  quizData: (quiz: QuizType[]) => void;
   loading: (loading: boolean) => void;
 };
 
-type quizType = TextFormSchemaType & {quizOption: string};
-    
+type quizType = TextFormSchemaType & { quizOption: string };
 
-export default function QuizTopicTab({ value,quizData,loading }: Props) {
+export default function QuizUrlTab({ value, quizData, loading }: Props) {
   const form = useForm<TextFormSchemaType>({
     resolver: zodResolver(textFormSchema),
   });
   async function onSubmit(data: TextFormSchemaType) {
-    const fullData : quizType = {...data, quizOption: "topic"};
+    const fullData: quizType = { ...data, quizOption: "url" };
     loading(true);
     const reponse = await fetch("/api/create-quiz", {
       method: "POST",
@@ -48,7 +47,7 @@ export default function QuizTopicTab({ value,quizData,loading }: Props) {
       body: JSON.stringify({ text_quiz: fullData }),
     });
     const res = await reponse.json();
-    const result:QuizType[] = res.questions;
+    const result: QuizType[] = res.questions;
     quizData(result);
     loading(false);
   }
@@ -146,18 +145,18 @@ export default function QuizTopicTab({ value,quizData,loading }: Props) {
                   name="textArea"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Enter Topic</FormLabel>
+                      <FormLabel>Enter URL</FormLabel>
                       <FormControl>
                         <div>
-                        <Input
-                          {...field}
-                          placeholder="Enter Topic E.g (Maths, Physics, Chemistry)"
-                        />
-                        <CardDescription className="p-2">
-                          The Topic will be searched online and questions will
-                          be generated based on the topic.
-                        </CardDescription>
-                          </div>
+                          <Input
+                            {...field}
+                            placeholder="Enter Url for the site"
+                          />
+                          <CardDescription className="p-2">
+                            Make sure the site is not publicly accessible and
+                            does not require login.
+                          </CardDescription>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

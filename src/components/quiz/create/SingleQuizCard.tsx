@@ -6,7 +6,7 @@ import SingleQuizCardOption from "./SingleQuizCardOption";
 type Props = {
   question: string;
   questionNo: number;
-  options: string[];
+  options?: string[];
   showAnwser: boolean;
   correctAnswer: string;
   answerExplain: string;
@@ -23,14 +23,17 @@ export default function SingleQuizCard({
   return (
     <Card className="mb-3">
       <CardHeader>
-        <CardTitle>{questionNo}. {question}</CardTitle>
+        <CardTitle className="text-[20px] leading-5">{questionNo}. {question}</CardTitle>
       </CardHeader>
       <CardContent>
-        <RadioGroup>
+        {
+          options &&
+          <RadioGroup>
           {options.map((option,index) => (
             <SingleQuizCardOption key={index} option={option} value={option} />
           ))}
         </RadioGroup>
+        }
       </CardContent>
       <CardFooter>
         {showAnwser && (

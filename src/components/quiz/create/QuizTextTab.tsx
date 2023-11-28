@@ -16,12 +16,12 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-import { mcqsQuizType, textFormSchema,TextFormSchemaType } from "@/types/common";
+import { QuizType, textFormSchema,TextFormSchemaType } from "@/types/common";
 import { useState } from "react";
 
 type Props = {
   value: string;
-  quizData: (quiz:mcqsQuizType[]) => void;
+  quizData: (quiz:QuizType[]) => void;
   loading: (loading: boolean) => void;
 };
 
@@ -39,9 +39,8 @@ export default function QuizTextTab({ value,quizData,loading }: Props) {
   };
   async function onSubmit(data: TextFormSchemaType) {
     const fullData : quizType = {...data, quizOption: "text"};
-    console.log(fullData, "-------");
     loading(true);
-    const reponse = await fetch("/api/text-quiz", {
+    const reponse = await fetch("/api/create-quiz", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,11 +48,9 @@ export default function QuizTextTab({ value,quizData,loading }: Props) {
       body: JSON.stringify({ text_quiz: fullData }),
     });
     const res = await reponse.json();
-    console.log(res,"--------api reponse--------");
-    const result:mcqsQuizType[] = res.questions;
+    const result:QuizType[] = res.questions;
     quizData(result);
     loading(false);
-    console.log(result);
   }
 
   return (
@@ -73,8 +70,8 @@ export default function QuizTextTab({ value,quizData,loading }: Props) {
                         options={[
                           { id: "mcqs", title: "MCQS" },
                           { id: "truefalse", title: "True - False" },
-                          { id: "shortqa", title: "Short Q and A" },
-                          { id: "fillblanks", title: "Fill in the Blanks" },
+                          { id: "shortquestionsandanswers", title: "Short Questions and Answers" },
+                          { id: "fillintheblanks", title: "Fill in the Blanks" },
                         ]}
                         label={"Question Type"}
                         placeholder={"Select a Question Type"}

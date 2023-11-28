@@ -4,10 +4,11 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import QuizTextTab from "./QuizTextTab";
 import QuizTopicTab from "./QuizTopicTab";
-import { mcqsQuizType } from "@/types/common";
+import { QuizType } from "@/types/common";
+import QuizUrlTab from "./QuizUrlTab";
 
 type Props = {
-  getQuizData: (quiz:mcqsQuizType[]) => void;
+  getQuizData: (quiz:QuizType[]) => void;
   loading: (loading: boolean) => void;
 };
 
@@ -23,7 +24,8 @@ export default function QuizCreateCard({getQuizData,loading}: Props) {
           <TabsTrigger value="manual">Manual</TabsTrigger>
         </TabsList>
         <QuizTextTab value="text" quizData = {getQuizData} loading={loading}/>
-        <QuizTopicTab value="topic" />
+        <QuizTopicTab value="topic" quizData = {getQuizData} loading={loading} />
+        <QuizUrlTab value="url" quizData = {getQuizData} loading={loading}/>
       </Tabs>
     </div>
   );
