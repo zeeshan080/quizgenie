@@ -6,7 +6,7 @@ import os
 import google.generativeai as genai
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 _: bool = load_dotenv(find_dotenv())  # read local .env file
