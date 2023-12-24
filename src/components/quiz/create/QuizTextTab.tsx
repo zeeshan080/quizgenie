@@ -40,7 +40,7 @@ export default function QuizTextTab({ value,quizData,loading }: Props) {
   async function onSubmit(data: TextFormSchemaType) {
     const fullData : quizType = {...data, quizOption: "text"};
     loading(true);
-    const reponse = await fetch("res.messagequiz", {
+    const reponse = await fetch("/api/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export default function QuizTextTab({ value,quizData,loading }: Props) {
       body: JSON.stringify({ text_quiz: fullData }),
     });
     const res = await reponse.json();
-    const result:QuizType[] = res.message;
+    const result:QuizType[] = /api/create;
     quizData(result);
     loading(false);
   }
