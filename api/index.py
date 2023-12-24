@@ -1,12 +1,12 @@
 import json
-from flask import Flask, request
+from flask import Flask,request
 from flask_cors import CORS
 from dotenv import load_dotenv, find_dotenv
 import os
 import google.generativeai as genai
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 
 
 _: bool = load_dotenv(find_dotenv())  # read local .env file
@@ -16,14 +16,8 @@ APIKEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=APIKEY)
 
 
-# route for getting all the todos
-@app.route("/api/todos", methods=["GET"])
-def get_todos():
-    return {"todos": todos, "message": "success", "status": 200}
-
-
 # route for adding a todo
-@app.route("/api/create-quiz", methods=["POST"])
+@app.route('/api/create-quiz',methods=['POST'])
 def create_text_quiz():
     # get post data from the request body
     text_quiz = request.json.get("text_quiz")
@@ -76,18 +70,6 @@ def create_text_quiz():
     response = model.generate_content(gpt_prompt)
     toJson = json.loads(response.text)
     return {"message":toJson}
-
-
-# route for deleting a todo
-@app.route("/api/todo/<int:id>", methods=["DELETE"])
-def delete_todo(id):
-    return {"message": "success", "status": 200}
-
-
-# route for updating a todo
-@app.route("/api/todo/<int:id>", methods=["PUT"])
-def update_todo(id):
-    return {"message": "not found", "status": 404}
 
 
 @app.route("/api/status", methods=["GET"])
