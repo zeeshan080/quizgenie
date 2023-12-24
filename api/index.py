@@ -8,16 +8,13 @@ import google.generativeai as genai
 app = Flask(__name__)
 CORS(app)
 
-
-_: bool = load_dotenv(find_dotenv())  # read local .env file
-
 load_dotenv()
 APIKEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=APIKEY)
 
 
 # route for adding a todo
-@app.route('/api/create-quiz',methods=['POST'])
+@app.route('/api/create',methods=['POST'])
 def create_text_quiz():
     # get post data from the request body
     text_quiz = request.json.get("text_quiz")
@@ -72,7 +69,7 @@ def create_text_quiz():
     return {"message":toJson}
 
 
-@app.route("/api/status", methods=["GET"])
+@app.route("/api/status", methods=['GET'])
 def status():
     return "API is up and running!"
 
