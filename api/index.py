@@ -1,10 +1,9 @@
 import json
 from flask import Flask, request
 from flask_cors import CORS
-from openai.types.chat.chat_completion import ChatCompletion
-from openai import OpenAI
 from dotenv import load_dotenv, find_dotenv
 import os
+import google.generativeai as genai
 
 app = Flask(__name__)
 CORS(app)
@@ -12,7 +11,9 @@ CORS(app)
 
 _: bool = load_dotenv(find_dotenv())  # read local .env file
 
-client: OpenAI = OpenAI()
+load_dotenv()
+APIKEY = os.getenv("GOOGLE_API_KEY")
+genai.configure(api_key=APIKEY)
 
 
 # route for getting all the todos
@@ -71,44 +72,21 @@ def create_text_quiz():
         The user knowledge base is {text_quiz["educationLevel"]}
         Your response should be strictly JSON formated.
     '''
-
-    print("gpt_prompt_index.py",gpt_prompt)
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo-1106",
-        response_format={"type": "json_object"},
-        messages=[{"role": "system", "content": gpt_prompt}],
-    )
-    jsonResponse = json.loads(response.choices[0].message.content)
-    return jsonResponse
+    model = genai.GenerativeModel('gemini-pro')
+    response = model.generate_content(gpt_prompt)
+    toJson = json.loads(response.text)
+    return {"message":toJson}
 
 
 # route for deleting a todo
 @app.route("/api/todo/<int:id>", methods=["DELETE"])
 def delete_todo(id):
-    # get the todo id from the url
-    todo_id = id
-    global todos
-    # delete the todo from the todos list
-    todos = [todo for todo in todos if todo["id"] != str(todo_id)]
     return {"message": "success", "status": 200}
 
 
 # route for updating a todo
 @app.route("/api/todo/<int:id>", methods=["PUT"])
 def update_todo(id):
-    # get the todo id from the url
-    todo_id = id
-    # get the todo from the request body
-    todoNew = request.json.get("todo")
-    global todos
-    # update the todo in the todos list
-    todoPrev = next((todo for todo in todos if todo["id"] == str(todo_id)), None)
-    if todoPrev:
-        todoPrev["id"] = todoNew["id"]
-        todoPrev["title"] = todoNew["title"]
-        todoPrev["status"] = todoNew["status"]
-        return {"todo": todoNew, "message": "success", "status": 200}
-
     return {"message": "not found", "status": 404}
 
 

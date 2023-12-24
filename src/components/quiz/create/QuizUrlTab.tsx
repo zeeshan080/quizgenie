@@ -47,7 +47,7 @@ export default function QuizUrlTab({ value, quizData, loading }: Props) {
       body: JSON.stringify({ text_quiz: fullData }),
     });
     const res = await reponse.json();
-    const result: QuizType[] = res.questions;
+    const result: QuizType[] = res.message;
     quizData(result);
     loading(false);
   }

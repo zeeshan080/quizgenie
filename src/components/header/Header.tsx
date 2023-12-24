@@ -7,7 +7,7 @@ type Props = {};
 
 export default function Header({}: Props) {
   return (
-    <header className="py-4 px-6 flex justify-between items-center bg-gray-100 shadow-md">
+    <header className="py-4 px-6 flex justify-between items-center bg-white shadow-md">
       <div className="text-lg font-bold">
         <Link href={"/"}>QuizGenie</Link>
       </div>
