@@ -39,7 +39,7 @@ export default function QuizUrlTab({ value, quizData, loading }: Props) {
   async function onSubmit(data: TextFormSchemaType) {
     const fullData: quizType = { ...data, quizOption: "url" };
     loading(true);
-    const reponse = await fetch("/api/create-quiz", {
+    const reponse = await fetch("/api/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
